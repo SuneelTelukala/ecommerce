@@ -18,9 +18,22 @@ function Products({ search,cart,setCart }) {
     p.title.toLowerCase().includes((search || "").toLowerCase())
   );
 
+
   const addToCart = (p) => {
-    setCart([...cart, p]);
-  };
+  const existingItem = cart.find((item) => item.id === p.id);
+
+  if (existingItem) {
+
+    setCart(
+      cart.map((item) =>
+        item.id === p.id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  } else {
+    setCart([...cart, { ...p, quantity: 1 }]);
+  }
+};
+
 
   return (
     <div className="products-grid">
